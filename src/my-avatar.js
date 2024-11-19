@@ -5,18 +5,20 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+import "@haxtheweb/rpg-character/rpg-character.js";
 
 /**
  * `my-avatar`
- * 
+ *
  * @demo index.html
  * @element my-avatar
  */
 export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
-
   static get tag() {
     return "my-avatar";
   }
+
+  //html inputs
 
   constructor() {
     super();
@@ -29,8 +31,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
     this.registerLocalization({
       context: this,
       localesPath:
-        new URL("./locales/my-avatar.ar.json", import.meta.url).href +
-        "/../",
+        new URL("./locales/my-avatar.ar.json", import.meta.url).href + "/../",
       locales: ["ar", "es", "hi", "zh"],
     });
   }
@@ -45,31 +46,32 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
 
   // Lit scoped styles
   static get styles() {
-    return [super.styles,
-    css`
-      :host {
-        display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
-        font-family: var(--ddd-font-navigation);
-      }
-      .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
-      }
-      h3 span {
-        font-size: var(--my-avatar-label-font-size, var(--ddd-font-size-s));
-      }
-    `];
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+          color: var(--ddd-theme-primary);
+          background-color: var(--ddd-theme-accent);
+          font-family: var(--ddd-font-navigation);
+        }
+        .wrapper {
+          margin: var(--ddd-spacing-2);
+          padding: var(--ddd-spacing-4);
+        }
+        h3 span {
+          font-size: var(--my-avatar-label-font-size, var(--ddd-font-size-s));
+        }
+      `,
+    ];
   }
 
   // Lit render the HTML
   render() {
-    return html`
-<div class="wrapper">
-  <h3><span>${this.t.title}:</span> ${this.title}</h3>
-  <slot></slot>
-</div>`;
+    return html` <div class="wrapper">
+      <h3><span>${this.t.title}:</span> ${this.title}</h3>
+      <slot></slot>
+    </div>`;
   }
 
   /**
