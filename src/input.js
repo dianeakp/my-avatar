@@ -11,6 +11,9 @@ import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
  *
  * @demo index.html
  * @element my-avatar
+ *
+ *
+ * SIDE OPTIONS
  */
 export class Input extends DDDSuper(I18NMixin(LitElement)) {
   static get tag() {
