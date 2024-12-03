@@ -69,7 +69,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html` <div class="wrapper">
-      <rpg-character></rpg-character>
+      <rpg-character> </rpg-character>
       <h3><span>${this.t.title}:</span> ${this.title}</h3>
       <slot></slot>
     </div>`;
