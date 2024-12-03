@@ -28,12 +28,6 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       ...this.t,
       title: "Title",
     };
-    this.registerLocalization({
-      context: this,
-      localesPath:
-        new URL("./locales/my-avatar.ar.json", import.meta.url).href + "/../",
-      locales: ["ar", "es", "hi", "zh"],
-    });
   }
 
   // Lit reactive properties
