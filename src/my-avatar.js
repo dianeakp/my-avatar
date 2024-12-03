@@ -6,6 +6,7 @@ import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 import "@haxtheweb/rpg-character/rpg-character.js";
+import "wired-elements";
 
 /**
  * `my-avatar`
@@ -22,11 +23,22 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
-    this.title = "";
-    this.t = this.t || {};
-    this.t = {
-      ...this.t,
-      title: "Title",
+    this.characterSettings = {
+      seed: "1234567890",
+      accessories: 0,
+      base: 1,
+      face: 0,
+      faceitem: 0,
+      hair: 0,
+      pants: 0,
+      shirt: 0,
+      skin: 0,
+      size: 300, // Default character size
+      name: "",
+      fire: false,
+      walking: false,
+      circle: false,
+      sunglasses: false,
     };
   }
 
@@ -63,7 +75,12 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html` <div class="wrapper">
-      <rpg-character> </rpg-character>
+      <div class="character">
+        <rpg-character> </rpg-character>
+      </div>
+      <div class="sliders">
+        <wired-slider></wired-slider>
+      </div>
       <h3><span>${this.t.title}:</span> ${this.title}</h3>
       <slot></slot>
     </div>`;
