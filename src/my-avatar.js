@@ -154,7 +154,6 @@ export class MyAvatar extends SimpleColors {
 
   // Lit render the HTML
   render() {
-    <h1>hi</h1>;
     const accessories = new URL(
       `./lib/accessories/${this.accessories}.svg`,
       import.meta.url
@@ -202,6 +201,9 @@ export class MyAvatar extends SimpleColors {
         ${this.circle ? this.renderPiece(circle) : ``}
       </div>
       ${this.demo ? html`<div id="demo">${this.seed}</div>` : ``}
+
+      <h1>hi</h1>
+
       <style>
         #cardcircle {
           fill: var(
