@@ -24,12 +24,12 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   constructor() {
     super();
     this.characterSettings = {
-      seed: "01000100030",
+      seed: "21000100030",
       accessories: 0,
       base: 1,
-      leg: 0,
+      leg: "",
       face: 0,
-      faceitem: 0,
+      faceItem: 0,
       hair: 0,
       pants: 0,
       shirt: 0,
@@ -99,7 +99,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           accessories="${this.characterSettings.accessories}"
           base="${this.characterSettings.base}"
           face="${this.characterSettings.face}"
-          faceitem="${this.characterSettings.sunglasses ? 1 : 0}"
+          faceitem="${this.characterSettings.faceitem}"
           hair="${this.characterSettings.hair}"
           pants="${this.characterSettings.pants}"
           shirt="${this.characterSettings.shirt}"
@@ -148,6 +148,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             max="9"
             @change="${(e) =>
               this._updateSetting("leg", parseInt(e.detail.value))}"
+            disabled
           ></wired-slider>
         </div>
 
@@ -163,10 +164,10 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
         </div>
 
         <div class="singleInput">
-          <label>Face item*</label>
+          <label>Face item</label>
           <!-- ***FIX, DOESN'T WORK -->
           <wired-slider
-            value="${this.characterSettings.hair}"
+            value="${this.characterSettings.faceitem}"
             min="0"
             max="9"
             @change="${(e) =>
@@ -239,6 +240,22 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
               this._updateSetting("size", parseInt(e.detail.value))}"
           ></wired-slider>
         </div>
+
+        <wired-checkbox
+          ?checked="${this.characterSettings.fire}"
+          @change="${(e) => this._updateSetting("fire", e.detail.checked)}"
+          >On Fire</wired-checkbox
+        >
+        <wired-checkbox
+          ?checked="${this.characterSettings.walking}"
+          @change="${(e) => this._updateSetting("walking", e.detail.checked)}"
+          >Walking</wired-checkbox
+        >
+        <wired-checkbox
+          ?checked="${this.characterSettings.circle}"
+          @change="${(e) => this._updateSetting("circle", e.detail.checked)}"
+          >Circle</wired-checkbox
+        >
       </div>
 
       <slot></slot>
@@ -249,8 +266,11 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
     if (key === "accessories" && isNaN(value)) {
       value = 0;
     }
+
+    console.log(this.characterSettings.seed);
+
+    //`${this.characterSettings.base}${this.characterSettings.face}${this.characterSettings.faceitem}${this.characterSettings.hair}${this.characterSettings.pants}${this.characterSettings.shirt}${this.characterSettings.skin}${this.characterSettings.accessories}`;
     this.characterSettings = { ...this.characterSettings, [key]: value };
-    this._updateSeed();
   }
 
   /**
