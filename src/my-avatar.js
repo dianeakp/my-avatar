@@ -24,7 +24,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   constructor() {
     super();
     this.characterSettings = {
-      seed: "00000000000",
+      seed: "0100000000",
       accessories: 0,
       base: 0,
       leg: "",
@@ -36,7 +36,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       skin: 0,
       size: 300, // Default character size
       hatcolor: 0,
-      hat: "none",
+      hat: "bunny",
       name: "",
       fire: false,
       walking: false,
@@ -51,6 +51,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   static get properties() {
     return {
       ...super.properties,
+      seed: { type: String },
       characterSettings: { type: Object },
     };
   }
@@ -73,6 +74,8 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           justify-content: center;
           align-items: flex-start;
           padding: 20px;
+          color: light-dark(#333b3c, #efefec);
+          background-color: light-dark(#efedea, #223a2c);
         }
         .characterbox {
           flex: 1;
@@ -83,6 +86,8 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           flex: 1;
           min-width: 300px;
           text-align: left;
+          color: light-dark(#333b3c, #efefec);
+          background-color: light-dark(#efedea, #223a2c);
         }
 
         h3 span {
@@ -143,11 +148,11 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             class="wired-rendered"
             aria-expanded="false"
           >
-            <wired-item value="0" role="option" class="wired-rendered"
-              >Male</wired-item
-            >
             <wired-item value="1" role="option" class="wired-rendered"
               >Female</wired-item
+            >
+            <wired-item value="0" role="option" class="wired-rendered"
+              >Male</wired-item
             >
           </wired-combo>
         </div>
@@ -171,31 +176,6 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             max="9"
             @change="${(e) =>
               this._updateSetting("accessories", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <!-- <div class="singleInput">
-          <label>Base Gender</label>
-          DO THIS! **1 or 5 (Male 0-4, Female 5-9) , make into drop down box
-          <wired-slider
-            value="${this.characterSettings.size}"
-            min="0"
-            max="1"
-            @change="${(e) =>
-          this._updateSetting("base", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div> -->
-
-        <div class="singleInput">
-          <label>Leg*</label>
-          <!-- DO THIS!***(ignored, set to 0 and disable / hide input) -->
-          <wired-slider
-            value="${this.characterSettings.leg}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("leg", parseInt(e.detail.value))}"
-            disabled
           ></wired-slider>
         </div>
 
@@ -281,8 +261,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           <label>Hat</label>
           <wired-combo
             selected="${this.characterSettings.hat}"
-            @selected="${(e) =>
-              this._updateSetting("hat", parseInt(e.detail.selected))}"
+            @selected="${(e) => this._updateSetting("hat", e.detail.selected)}"
             role="combobox"
             aria-haspopup="listbox"
             tabindex="0"
@@ -350,6 +329,8 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   }
 
   _updateSetting(key, value) {
+    console.log("update");
+    console.log(key, value);
     if (key === "base") {
       this.characterSettings.base = value; // Update base
     } else if (key === "hat") {
@@ -359,20 +340,24 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
     }
 
     console.log(this.characterSettings.seed);
+    console.log("base", this.characterSettings.base);
 
-    // this.characterSettings.seed = `${this.characterSettings.base}${this.characterSettings.face}${this.characterSettings.faceitem}${this.characterSettings.hair}${this.characterSettings.pants}${this.characterSettings.shirt}${this.characterSettings.skin}${this.characterSettings.accessories}`;
+    this.characterSettings.seed = `${this.characterSettings.accessories}${this.characterSettings.base}0${this.characterSettings.face}${this.characterSettings.faceitem}${this.characterSettings.hair}${this.characterSettings.pants}${this.characterSettings.shirt}${this.characterSettings.skin}${this.characterSettings.hatcolor}`;
     this.characterSettings = { ...this.characterSettings, [key]: value };
     // this._generateSeed();
     this.requestUpdate();
   }
 
   _applySeedToSettings() {
+    console.log("apply");
     const seed = this.characterSettings.seed;
     const paddedSeed = seed.padStart(8, "0").slice(0, 8);
     const values = paddedSeed.split("").map((v) => parseInt(v, 10));
 
     [
+      this.characterSettings.accessories,
       this.characterSettings.base,
+      this.characterSettings.leg,
       this.characterSettings.face,
       this.characterSettings.faceitem,
       this.characterSettings.hair,
