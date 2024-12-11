@@ -23,6 +23,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
+    const url = new URLSearchParams(window.location.search);
     this.characterSettings = {
       seed: "0100000000",
       accessories: 0,
@@ -44,7 +45,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       sunglasses: false,
     };
 
-    this._applySeedToSettings(); //for concistency
+    // this._applySeedToSettings(); //for concistency
   }
 
   // Lit reactive properties
@@ -133,6 +134,9 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             .characterSettings.size}px;"
         >
         </rpg-character>
+        <button class="shareLink" @click="${this._generateShareLink}">
+          Share Link
+        </button>
       </div>
 
       <div class="sliderbox">
@@ -331,21 +335,36 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   _updateSetting(key, value) {
     console.log("update");
     console.log(key, value);
-    if (key === "base") {
-      this.characterSettings.base = value; // Update base
-    } else if (key === "hat") {
-      this.characterSettings.hat = value;
-    } else if (key === "accessories" && isNaN(value)) {
-      value = 0;
-    }
 
     console.log(this.characterSettings.seed);
     console.log("base", this.characterSettings.base);
 
-    this.characterSettings.seed = `${this.characterSettings.accessories}${this.characterSettings.base}0${this.characterSettings.face}${this.characterSettings.faceitem}${this.characterSettings.hair}${this.characterSettings.pants}${this.characterSettings.shirt}${this.characterSettings.skin}${this.characterSettings.hatcolor}`;
+    // this.characterSettings.seed = `${this.characterSettings.base}${this.characterSettings.accessories}0${this.characterSettings.face}${this.characterSettings.faceitem}${this.characterSettings.hair}${this.characterSettings.pants}${this.characterSettings.shirt}${this.characterSettings.skin}${this.characterSettings.hatcolor}`;
     this.characterSettings = { ...this.characterSettings, [key]: value };
-    // this._generateSeed();
-    this.requestUpdate();
+    this._generateSeed();
+    // this.requestUpdate();
+  }
+
+  _generateSeed() {
+    const attributes = [
+      this.characterSettings.accessories,
+      this.characterSettings.base,
+      this.characterSettings.face,
+      this.characterSettings.faceitem,
+      this.characterSettings.hair,
+      this.characterSettings.pants,
+      this.characterSettings.shirt,
+      this.characterSettings.skin,
+      this.characterSettings.hatcolor,
+    ];
+    this.characterSettings.seed = attributes.join("");
+    console.log(this.characterSettings.seed);
+  }
+
+  _generateShareLink() {
+    const link = `${location.origin}${location.pathname}?seed=${this.seed}&hat=${this.hat}&fire=${this.fire}&walking=${this.walking}&circle=${this.circle}`;
+    navigator.clipboard.writeText(link);
+    alert("Link copied to clipboard!");
   }
 
   _applySeedToSettings() {
@@ -367,7 +386,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       this.characterSettings.hatColor,
     ] = values;
 
-    this.requestUpdate(); // Ensure UI updates after applying settings
+    // this.requestUpdate(); // Ensure UI updates after applying settings
   }
 
   /**
