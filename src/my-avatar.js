@@ -86,6 +86,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           flex: 1;
           min-width: 300px;
           text-align: center;
+          padding: 15px;
         }
         .sliderbox {
           flex: 1;
@@ -113,7 +114,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           padding: 8px;
           border-radius: 8px;
           border: none;
-          background-color: lightblue;
+          background-color: var(--ddd-theme-default-creekTeal);
           box-shadow: none;
           font-family: var(--ddd-font-primary);
           font-size: 16px;
@@ -122,14 +123,14 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
 
         @media (prefers-color-scheme: dark) {
           .sliderbox {
-            padding: 8px;
+            padding: 15px;
             border-radius: 8px;
-            background-color: grey;
+            background-color: var(--ddd-theme-default-limestoneGray);
           }
         }
         @media only screen and (max-width: 768px) {
           .wrapper {
-            background-color: lightblue;
+            /* background-color: lightblue; */
             overflow: scroll;
           }
           .characterbox {
@@ -157,6 +158,9 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             .characterSettings.size}px;"
         >
         </rpg-character>
+        <br />
+        <br />
+        <br />
       </div>
 
       <div class="sliderbox">
