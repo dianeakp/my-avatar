@@ -25,10 +25,10 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
     super();
     const url = new URLSearchParams(window.location.search);
     this.characterSettings = {
-      seed: "0100000000",
+      seed: "0000000000",
       accessories: 0,
       base: 0,
-      leg: "",
+      leg: 0,
       face: 0,
       faceItem: 0,
       hair: 0,
@@ -44,6 +44,10 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       circle: false,
       sunglasses: false,
     };
+
+    if (window.location.search) {
+      this._initializeParameters();
+    }
 
     // this._applySeedToSettings(); //for concistency
   }
@@ -105,6 +109,33 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           justify-content: flex-end;
           height: 100%;
         }
+        .shareLink {
+          padding: 8px;
+          border-radius: 8px;
+          border: none;
+          background-color: lightblue;
+          box-shadow: none;
+          font-family: var(--ddd-font-primary);
+          font-size: 16px;
+          display: inline-block;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          .sliderbox {
+            padding: 8px;
+            border-radius: 8px;
+            background-color: grey;
+          }
+        }
+        @media only screen and (max-width: 768px) {
+          .wrapper {
+            background-color: lightblue;
+            overflow: scroll;
+          }
+          .characterbox {
+            padding: 30px;
+          }
+        }
       `,
     ];
   }
@@ -116,17 +147,9 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
         <div class="seed-display">Seed: ${this.characterSettings.seed}</div>
 
         <rpg-character
+          literalseed
           seed="${this.characterSettings.seed}"
-          accessories="${this.characterSettings.accessories}"
-          base="${this.characterSettings.base}"
-          face="${this.characterSettings.face}"
-          faceitem="${this.characterSettings.faceitem}"
-          hair="${this.characterSettings.hair}"
-          pants="${this.characterSettings.pants}"
-          shirt="${this.characterSettings.shirt}"
-          skin="${this.characterSettings.skin}"
           hat="${this.characterSettings.hat}"
-          hatcolor="${this.characterSettings.hatcolor}"
           ?fire="${this.characterSettings.fire}"
           ?walking="${this.characterSettings.walking}"
           ?circle="${this.characterSettings.circle}"
@@ -134,9 +157,6 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             .characterSettings.size}px;"
         >
         </rpg-character>
-        <button class="shareLink" @click="${this._generateShareLink}">
-          Share Link
-        </button>
       </div>
 
       <div class="sliderbox">
@@ -152,11 +172,11 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             class="wired-rendered"
             aria-expanded="false"
           >
-            <wired-item value="1" role="option" class="wired-rendered"
-              >Female</wired-item
-            >
             <wired-item value="0" role="option" class="wired-rendered"
               >Male</wired-item
+            >
+            <wired-item value="1" role="option" class="wired-rendered"
+              >Female</wired-item
             >
           </wired-combo>
         </div>
@@ -175,7 +195,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
         <div class="singleInput">
           <label>Accessories</label>
           <wired-slider
-            value="${this.characterSettings.size}"
+            value="${this.characterSettings.accessories}"
             min="0"
             max="9"
             @change="${(e) =>
@@ -198,11 +218,11 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           <label>Face item</label>
           <!-- ***FIX, DOESN'T WORK -->
           <wired-slider
-            value="${this.characterSettings.faceitem}"
+            value="${this.characterSettings.faceItem}"
             min="0"
             max="9"
             @change="${(e) =>
-              this._updateSetting("faceitem", parseInt(e.detail.value))}"
+              this._updateSetting("faceItem", parseInt(e.detail.value))}"
           ></wired-slider>
         </div>
 
@@ -260,7 +280,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
               this._updateSetting("hatcolor", parseInt(e.detail.value))}"
           ></wired-slider>
         </div>
-
+        <br />
         <div class="singleInput">
           <label>Hat</label>
           <wired-combo
@@ -310,7 +330,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
             >
           </wired-combo>
         </div>
-
+        <br />
         <wired-checkbox
           ?checked="${this.characterSettings.fire}"
           @change="${(e) => this._updateSetting("fire", e.detail.checked)}"
@@ -326,6 +346,11 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           @change="${(e) => this._updateSetting("circle", e.detail.checked)}"
           >Circle</wired-checkbox
         >
+        <br />
+        <br />
+        <button class="shareLink" @click="${this._generateShareLink}">
+          Share Link
+        </button>
       </div>
 
       <slot></slot>
@@ -349,22 +374,37 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
     const attributes = [
       this.characterSettings.accessories,
       this.characterSettings.base,
+      this.characterSettings.leg,
       this.characterSettings.face,
-      this.characterSettings.faceitem,
+      this.characterSettings.faceItem,
       this.characterSettings.hair,
       this.characterSettings.pants,
       this.characterSettings.shirt,
       this.characterSettings.skin,
       this.characterSettings.hatcolor,
     ];
+    console.log("attributes", attributes);
     this.characterSettings.seed = attributes.join("");
     console.log(this.characterSettings.seed);
   }
 
   _generateShareLink() {
-    const link = `${location.origin}${location.pathname}?seed=${this.seed}&hat=${this.hat}&fire=${this.fire}&walking=${this.walking}&circle=${this.circle}`;
+    const link = `${location.origin}${location.pathname}?seed=${this.characterSettings.seed}&hat=${this.characterSettings.hat}&fire=${this.characterSettings.fire}&walking=${this.characterSettings.walking}&circle=${this.characterSettings.circle}&size=${this.characterSettings.size}`;
     navigator.clipboard.writeText(link);
     alert("Link copied to clipboard!");
+  }
+
+  _initializeParameters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams.get("circle"));
+    this.characterSettings = {
+      seed: urlParams.get("seed") || "0000000000",
+      hat: urlParams.get("hat") || "bunny",
+      fire: urlParams.get("fire") || false,
+      walking: urlParams.get("walking") || false,
+      circle: urlParams.get("circle") || false,
+      size: urlParams.get("size") || 300,
+    };
   }
 
   _applySeedToSettings() {
@@ -378,12 +418,12 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       this.characterSettings.base,
       this.characterSettings.leg,
       this.characterSettings.face,
-      this.characterSettings.faceitem,
+      this.characterSettings.faceItem,
       this.characterSettings.hair,
       this.characterSettings.pants,
       this.characterSettings.shirt,
       this.characterSettings.skin,
-      this.characterSettings.hatColor,
+      this.characterSettings.hatcolor,
     ] = values;
 
     // this.requestUpdate(); // Ensure UI updates after applying settings
