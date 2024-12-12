@@ -23,7 +23,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
-    const url = new URLSearchParams(window.location.search);
+    this.link = window.location.href;
     this.characterSettings = {
       seed: "0000000000",
       accessories: 0,
@@ -36,7 +36,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       shirt: 0,
       skin: 0,
       size: 300, // Default character size
-      hatcolor: 0,
+      hatColor: 0,
       hat: "bunny",
       name: "",
       fire: false,
@@ -57,6 +57,7 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       seed: { type: String },
+      link: { type: String },
       characterSettings: { type: Object },
     };
   }
@@ -121,11 +122,18 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           display: inline-block;
         }
 
+        .twitter-share-button {
+          padding: 90px;
+        }
+
         @media (prefers-color-scheme: dark) {
           .sliderbox {
             padding: 15px;
             border-radius: 8px;
             background-color: var(--ddd-theme-default-limestoneGray);
+          }
+          wired-item {
+            color: var(--ddd-theme-default-limestoneGray);
           }
         }
         @media only screen and (max-width: 768px) {
@@ -149,7 +157,15 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
 
         <rpg-character
           literalseed
-          seed="${this.characterSettings.seed}"
+          accessories="${this.characterSettings.accessories}"
+          base="${this.characterSettings.base}"
+          face="${this.characterSettings.face}"
+          faceitem="${this.characterSettings.faceItem}"
+          hair="${this.characterSettings.hair}"
+          pants="${this.characterSettings.pants}"
+          shirt="${this.characterSettings.shirt}"
+          skin="${this.characterSettings.skin}"
+          hatColor="${this.characterSettings.hatColor}"
           hat="${this.characterSettings.hat}"
           ?fire="${this.characterSettings.fire}"
           ?walking="${this.characterSettings.walking}"
@@ -277,11 +293,11 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
         <div class="singleInput">
           <label>Hat Color</label>
           <wired-slider
-            value="${this.characterSettings.hatcolor}"
+            value="${this.characterSettings.hatColor}"
             min="0"
             max="9"
             @change="${(e) =>
-              this._updateSetting("hatcolor", parseInt(e.detail.value))}"
+              this._updateSetting("hatColor", parseInt(e.detail.value))}"
           ></wired-slider>
         </div>
         <br />
@@ -355,6 +371,13 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
         <button class="shareLink" @click="${this._generateShareLink}">
           Share Link
         </button>
+        <a
+          class="twitter-share-button"
+          href="https://twitter.com/intent/tweet?text=Look%20at%20my%20character:%20${this
+            .link}"
+        >
+          Post on Twitter</a
+        >
       </div>
 
       <slot></slot>
@@ -385,52 +408,64 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
       this.characterSettings.pants,
       this.characterSettings.shirt,
       this.characterSettings.skin,
-      this.characterSettings.hatcolor,
+      this.characterSettings.hatColor,
     ];
     console.log("attributes", attributes);
     this.characterSettings.seed = attributes.join("");
     console.log(this.characterSettings.seed);
+
+    this.link = `${location.origin}${location.pathname}?seed=${this.characterSettings.seed}&hat=${this.characterSettings.hat}&fire=${this.characterSettings.fire}&walking=${this.characterSettings.walking}&circle=${this.characterSettings.circle}&size=${this.characterSettings.size}`;
   }
 
   _generateShareLink() {
-    const link = `${location.origin}${location.pathname}?seed=${this.characterSettings.seed}&hat=${this.characterSettings.hat}&fire=${this.characterSettings.fire}&walking=${this.characterSettings.walking}&circle=${this.characterSettings.circle}&size=${this.characterSettings.size}`;
-    navigator.clipboard.writeText(link);
+    navigator.clipboard.writeText(this.link);
     alert("Link copied to clipboard!");
   }
 
   _initializeParameters() {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams.get("circle"));
+    console.log(urlParams.get("fire"));
+
+    let fire, walking, circle;
+
+    if (urlParams.get("fire") == "true") {
+      fire = true;
+    } else {
+      fire = false;
+    }
+
+    if (urlParams.get("walking") == "true") {
+      walking = true;
+    } else {
+      walking = false;
+    }
+
+    if (urlParams.get("circle") == "true") {
+      circle = true;
+    } else {
+      circle = false;
+    }
+
+    let seedString = urlParams.get("seed");
+    let seedArray = seedString.split("");
     this.characterSettings = {
       seed: urlParams.get("seed") || "0000000000",
+      accessories: seedArray[0] || 0,
+      base: seedArray[1] || 0,
+      leg: 0,
+      face: seedArray[3] || 0,
+      faceItem: seedArray[4] || 0,
+      hair: seedArray[5] || 0,
+      pants: seedArray[6] || 0,
+      shirt: seedArray[7] || 0,
+      skin: seedArray[8] || 0,
+      hatColor: seedArray[9] || 0,
       hat: urlParams.get("hat") || "bunny",
-      fire: urlParams.get("fire") || false,
-      walking: urlParams.get("walking") || false,
-      circle: urlParams.get("circle") || false,
+      fire: fire || false,
+      walking: walking || false,
+      circle: circle || false,
       size: urlParams.get("size") || 300,
     };
-  }
-
-  _applySeedToSettings() {
-    console.log("apply");
-    const seed = this.characterSettings.seed;
-    const paddedSeed = seed.padStart(8, "0").slice(0, 8);
-    const values = paddedSeed.split("").map((v) => parseInt(v, 10));
-
-    [
-      this.characterSettings.accessories,
-      this.characterSettings.base,
-      this.characterSettings.leg,
-      this.characterSettings.face,
-      this.characterSettings.faceItem,
-      this.characterSettings.hair,
-      this.characterSettings.pants,
-      this.characterSettings.shirt,
-      this.characterSettings.skin,
-      this.characterSettings.hatcolor,
-    ] = values;
-
-    // this.requestUpdate(); // Ensure UI updates after applying settings
   }
 
   /**
