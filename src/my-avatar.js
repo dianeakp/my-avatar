@@ -160,256 +160,266 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html` <div class="wrapper">
-      <div class="characterbox">
-        <div class="seed-display">Seed: ${this.characterSettings.seed}</div>
+        <div class="characterbox">
+          <div class="seed-display">Seed: ${this.characterSettings.seed}</div>
 
-        <rpg-character
-          literalseed
-          accessories="${this.characterSettings.accessories}"
-          base="${this.characterSettings.base}"
-          face="${this.characterSettings.face}"
-          faceitem="${this.characterSettings.faceItem}"
-          hair="${this.characterSettings.hair}"
-          pants="${this.characterSettings.pants}"
-          shirt="${this.characterSettings.shirt}"
-          skin="${this.characterSettings.skin}"
-          hatColor="${this.characterSettings.hatColor}"
-          hat="${this.characterSettings.hat}"
-          ?fire="${this.characterSettings.fire}"
-          ?walking="${this.characterSettings.walking}"
-          ?circle="${this.characterSettings.circle}"
-          style="height: ${this.characterSettings.size}px; width: ${this
-            .characterSettings.size}px;"
-        >
-        </rpg-character>
-        <br />
-        <br />
-        <br />
-      </div>
-
-      <div class="sliderbox">
-        <div class="singleInput">
-          <label>Gender</label>
-          <wired-combo
-            selected="${this.characterSettings.base}"
-            @selected="${(e) =>
-              this._updateSetting("base", parseInt(e.detail.selected))}"
-            role="combobox"
-            aria-haspopup="listbox"
-            tabindex="0"
-            class="wired-rendered"
-            aria-expanded="false"
+          <rpg-character
+            literalseed
+            accessories="${this.characterSettings.accessories}"
+            base="${this.characterSettings.base}"
+            face="${this.characterSettings.face}"
+            faceitem="${this.characterSettings.faceItem}"
+            hair="${this.characterSettings.hair}"
+            pants="${this.characterSettings.pants}"
+            shirt="${this.characterSettings.shirt}"
+            skin="${this.characterSettings.skin}"
+            hatColor="${this.characterSettings.hatColor}"
+            hat="${this.characterSettings.hat}"
+            ?fire="${this.characterSettings.fire}"
+            ?walking="${this.characterSettings.walking}"
+            ?circle="${this.characterSettings.circle}"
+            style="height: ${this.characterSettings.size}px; width: ${this
+              .characterSettings.size}px;"
           >
-            <wired-item value="0" role="option" class="wired-rendered"
-              >Male</wired-item
-            >
-            <wired-item value="1" role="option" class="wired-rendered"
-              >Female</wired-item
-            >
-          </wired-combo>
+          </rpg-character>
+          <br />
+          <br />
+          <br />
         </div>
 
-        <div class="sizer">
-          <label>Size</label>
-          <wired-slider
-            value="${this.characterSettings.size}"
-            min="100"
-            max="400"
-            @change="${(e) =>
-              this._updateSetting("size", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Accessories</label>
-          <wired-slider
-            value="${this.characterSettings.accessories}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("accessories", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Face</label>
-          <wired-slider
-            value="${this.characterSettings.face}"
-            min="0"
-            max="5"
-            @change="${(e) =>
-              this._updateSetting("face", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Face item</label>
-          <!-- ***FIX, DOESN'T WORK -->
-          <wired-slider
-            value="${this.characterSettings.faceItem}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("faceItem", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Hair Color</label>
-          <wired-slider
-            value="${this.characterSettings.hair}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("hair", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Pants</label>
-          <wired-slider
-            value="${this.characterSettings.pants}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("pants", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Shirt</label>
-          <wired-slider
-            value="${this.characterSettings.shirt}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("shirt", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Skin Color</label>
-          <wired-slider
-            value="${this.characterSettings.skin}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("skin", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-
-        <div class="singleInput">
-          <label>Hat Color</label>
-          <wired-slider
-            value="${this.characterSettings.hatColor}"
-            min="0"
-            max="9"
-            @change="${(e) =>
-              this._updateSetting("hatColor", parseInt(e.detail.value))}"
-          ></wired-slider>
-        </div>
-        <br />
-        <div class="singleInput">
-          <label>Hat</label>
-          <wired-combo
-            selected="${this.characterSettings.hat}"
-            @selected="${(e) => this._updateSetting("hat", e.detail.selected)}"
-            role="combobox"
-            aria-haspopup="listbox"
-            tabindex="0"
-            class="wired-rendered"
-            aria-expanded="false"
-          >
-            <wired-item value="none" role="option" class="wired-rendered"
-              >None</wired-item
-            >
-            <wired-item value="bunny" role="option" class="wired-rendered"
-              >Bunny</wired-item
-            >
-            <wired-item value="coffee" role="option" class="wired-rendered"
-              >Coffee</wired-item
-            >
-            <wired-item
-              value="construction"
-              role="option"
+        <div class="sliderbox">
+          <div class="singleInput">
+            <label>Gender</label>
+            <wired-combo
+              selected="${this.characterSettings.base}"
+              @selected="${(e) =>
+                this._updateSetting("base", parseInt(e.detail.selected))}"
+              role="combobox"
+              aria-haspopup="listbox"
+              tabindex="0"
               class="wired-rendered"
-              >Construction</wired-item
+              aria-expanded="false"
             >
-            <wired-item value="cowboy" role="option" class="wired-rendered"
-              >Cowboy</wired-item
-            >
-            <wired-item value="education" role="option" class="wired-rendered"
-              >Education</wired-item
-            >
-            <wired-item value="knight" role="option" class="wired-rendered"
-              >Knight</wired-item
-            >
-            <wired-item value="ninja" role="option" class="wired-rendered"
-              >Ninja</wired-item
-            >
-            <wired-item value="party" role="option" class="wired-rendered"
-              >Party</wired-item
-            >
-            <wired-item value="pirate" role="option" class="wired-rendered"
-              >Pirate</wired-item
-            >
-            <wired-item value="watermelon" role="option" class="wired-rendered"
-              >Watermelon</wired-item
-            >
-          </wired-combo>
-        </div>
-        <br />
-        <wired-checkbox
-          ?checked="${this.characterSettings.fire}"
-          @change="${(e) => this._updateSetting("fire", e.detail.checked)}"
-          >On Fire</wired-checkbox
-        >
-        <wired-checkbox
-          ?checked="${this.characterSettings.walking}"
-          @change="${(e) => this._updateSetting("walking", e.detail.checked)}"
-          >Walking</wired-checkbox
-        >
-        <wired-checkbox
-          ?checked="${this.characterSettings.circle}"
-          @change="${(e) => this._updateSetting("circle", e.detail.checked)}"
-          >Circle</wired-checkbox
-        >
-        <br />
-        <br />
-        <div class="bottom-bar">
-          <button class="shareLink" @click="${this._generateShareLink}">
-            Share Link
-          </button>
-          <a
-            class="shareLink"
-            href="https://twitter.com/intent/tweet?text=Hey!%20Look%20at%20my%20super%20cool%20character:%20${this
-              .link}"
-            target="_blank"
-          >
-            Post on Twitter</a
-          >
+              <wired-item value="0" role="option" class="wired-rendered"
+                >Male</wired-item
+              >
+              <wired-item value="1" role="option" class="wired-rendered"
+                >Female</wired-item
+              >
+            </wired-combo>
+          </div>
 
-          <a
-            class="shareLink"
-            href="https://www.linkedin.com/sharing/share-offsite/?url=${this
-              .link}"
-            target="_blank"
-          >
-            Post on LinkedIn
-          </a>
+          <div class="sizer">
+            <label>Size</label>
+            <wired-slider
+              value="${this.characterSettings.size}"
+              min="100"
+              max="400"
+              @change="${(e) =>
+                this._updateSetting("size", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
 
-          <a
-            class="shareLink"
-            href="https://www.facebook.com/sharer/sharer.php?u=${this.link}"
-            target="_blank"
+          <div class="singleInput">
+            <label>Accessories</label>
+            <wired-slider
+              value="${this.characterSettings.accessories}"
+              min="0"
+              max="9"
+              @change="${(e) =>
+                this._updateSetting("accessories", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+
+          <div class="singleInput">
+            <label>Face</label>
+            <wired-slider
+              value="${this.characterSettings.face}"
+              min="0"
+              max="5"
+              @change="${(e) =>
+                this._updateSetting("face", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+
+          <div class="singleInput">
+            <label>Face item</label>
+            <!-- ***FIX, DOESN'T WORK -->
+            <wired-slider
+              value="${this.characterSettings.faceItem}"
+              min="0"
+              max="9"
+              @change="${(e) =>
+                this._updateSetting("faceItem", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+
+          <div class="singleInput">
+            <label>Hair Color</label>
+            <wired-slider
+              value="${this.characterSettings.hair}"
+              min="0"
+              max="9"
+              @change="${(e) =>
+                this._updateSetting("hair", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+
+          <div class="singleInput">
+            <label>Pants</label>
+            <wired-slider
+              value="${this.characterSettings.pants}"
+              min="0"
+              max="9"
+              @change="${(e) =>
+                this._updateSetting("pants", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+
+          <div class="singleInput">
+            <label>Shirt</label>
+            <wired-slider
+              value="${this.characterSettings.shirt}"
+              min="0"
+              max="9"
+              @change="${(e) =>
+                this._updateSetting("shirt", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+
+          <div class="singleInput">
+            <label>Skin Color</label>
+            <wired-slider
+              value="${this.characterSettings.skin}"
+              min="0"
+              max="9"
+              @change="${(e) =>
+                this._updateSetting("skin", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+
+          <div class="singleInput">
+            <label>Hat Color</label>
+            <wired-slider
+              value="${this.characterSettings.hatColor}"
+              min="0"
+              max="9"
+              @change="${(e) =>
+                this._updateSetting("hatColor", parseInt(e.detail.value))}"
+            ></wired-slider>
+          </div>
+          <br />
+          <div class="singleInput">
+            <label>Hat</label>
+            <wired-combo
+              selected="${this.characterSettings.hat}"
+              @selected="${(e) =>
+                this._updateSetting("hat", e.detail.selected)}"
+              role="combobox"
+              aria-haspopup="listbox"
+              tabindex="0"
+              class="wired-rendered"
+              aria-expanded="false"
+            >
+              <wired-item value="none" role="option" class="wired-rendered"
+                >None</wired-item
+              >
+              <wired-item value="bunny" role="option" class="wired-rendered"
+                >Bunny</wired-item
+              >
+              <wired-item value="coffee" role="option" class="wired-rendered"
+                >Coffee</wired-item
+              >
+              <wired-item
+                value="construction"
+                role="option"
+                class="wired-rendered"
+                >Construction</wired-item
+              >
+              <wired-item value="cowboy" role="option" class="wired-rendered"
+                >Cowboy</wired-item
+              >
+              <wired-item value="education" role="option" class="wired-rendered"
+                >Education</wired-item
+              >
+              <wired-item value="knight" role="option" class="wired-rendered"
+                >Knight</wired-item
+              >
+              <wired-item value="ninja" role="option" class="wired-rendered"
+                >Ninja</wired-item
+              >
+              <wired-item value="party" role="option" class="wired-rendered"
+                >Party</wired-item
+              >
+              <wired-item value="pirate" role="option" class="wired-rendered"
+                >Pirate</wired-item
+              >
+              <wired-item
+                value="watermelon"
+                role="option"
+                class="wired-rendered"
+                >Watermelon</wired-item
+              >
+            </wired-combo>
+          </div>
+          <br />
+          <wired-checkbox
+            ?checked="${this.characterSettings.fire}"
+            @change="${(e) => this._updateSetting("fire", e.detail.checked)}"
+            >On Fire</wired-checkbox
           >
-            Share on Facebook
-          </a>
+          <wired-checkbox
+            ?checked="${this.characterSettings.walking}"
+            @change="${(e) => this._updateSetting("walking", e.detail.checked)}"
+            >Walking</wired-checkbox
+          >
+          <wired-checkbox
+            ?checked="${this.characterSettings.circle}"
+            @change="${(e) => this._updateSetting("circle", e.detail.checked)}"
+            >Circle</wired-checkbox
+          >
+          <br />
+          <br />
+          <div class="bottom-bar">
+            <button class="shareLink" @click="${this._generateShareLink}">
+              Share Link
+            </button>
+            <a
+              class="shareLink"
+              href="https://twitter.com/intent/tweet?text=Hey!%20Look%20at%20my%20super%20cool%20character:%20${this
+                .link}"
+              target="_blank"
+            >
+              Post on Twitter</a
+            >
+
+            <a
+              class="shareLink"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=${this
+                .link}"
+              target="_blank"
+            >
+              Post on LinkedIn
+            </a>
+
+            <a
+              class="shareLink"
+              href="https://www.facebook.com/sharer/sharer.php?u=${this.link}"
+              target="_blank"
+            >
+              Share on Facebook
+            </a>
+          </div>
         </div>
+
+        <slot></slot>
       </div>
-
-      <slot></slot>
-    </div>`;
+      <div>
+        copy({ targets: [ { src: 'node_modules/@haxtheweb/simple-icon/lib/svgs',
+        dest: 'public', }, { src:
+        'node_modules/@haxtheweb/hax-iconset/lib/svgs', dest: 'public', }, ],
+        }),
+      </div>`;
   }
 
   _updateSetting(key, value) {
