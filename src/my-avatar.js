@@ -118,12 +118,20 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
           background-color: var(--ddd-theme-default-creekTeal);
           box-shadow: none;
           font-family: var(--ddd-font-primary);
-          font-size: 16px;
+          font-size: 13px;
           display: inline-block;
         }
 
         .twitter-share-button {
-          padding: 90px;
+        }
+
+        .bottom-bar {
+          background-color: var(--ddd-theme-default-creekLight);
+          padding: 10px;
+          border-radius: 5px;
+          text-align: center;
+          content: center;
+          justify-content: center;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -368,16 +376,36 @@ export class MyAvatar extends DDDSuper(I18NMixin(LitElement)) {
         >
         <br />
         <br />
-        <button class="shareLink" @click="${this._generateShareLink}">
-          Share Link
-        </button>
-        <a
-          class="twitter-share-button"
-          href="https://twitter.com/intent/tweet?text=Look%20at%20my%20character:%20${this
-            .link}"
-        >
-          Post on Twitter</a
-        >
+        <div class="bottom-bar">
+          <button class="shareLink" @click="${this._generateShareLink}">
+            Share Link
+          </button>
+          <a
+            class="shareLink"
+            href="https://twitter.com/intent/tweet?text=Hey!%20Look%20at%20my%20super%20cool%20character:%20${this
+              .link}"
+            target="_blank"
+          >
+            Post on Twitter</a
+          >
+
+          <a
+            class="shareLink"
+            href="https://www.linkedin.com/sharing/share-offsite/?url=${this
+              .link}"
+            target="_blank"
+          >
+            Post on LinkedIn
+          </a>
+
+          <a
+            class="shareLink"
+            href="https://www.facebook.com/sharer/sharer.php?u=${this.link}"
+            target="_blank"
+          >
+            Share on Facebook
+          </a>
+        </div>
       </div>
 
       <slot></slot>
