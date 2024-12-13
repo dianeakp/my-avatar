@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/input.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`my-avatar`",
+          "name": "Input",
+          "members": [
+            {
+              "kind": "field",
+              "name": "tag",
+              "static": true,
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "haxProperties",
+              "static": true,
+              "description": "haxProperties integration via file reference",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "t",
+              "type": {
+                "text": "object"
+              },
+              "default": "{ ...this.t, title: \"Title\", }"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "DDDSuper",
+              "package": "@haxtheweb/d-d-d/d-d-d.js"
+            },
+            {
+              "name": "I18NMixin",
+              "package": "@haxtheweb/i18n-manager/lib/I18NMixin.js"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "my-avatar",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Input",
+          "declaration": {
+            "name": "Input",
+            "module": "src/input.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "declaration": {
+            "name": "Input",
+            "module": "src/input.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/my-avatar.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`my-avatar`",
+          "name": "MyAvatar",
+          "members": [
+            {
+              "kind": "field",
+              "name": "tag",
+              "static": true,
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_updateSetting",
+              "parameters": [
+                {
+                  "name": "key"
+                },
+                {
+                  "name": "value"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_generateSeed"
+            },
+            {
+              "kind": "method",
+              "name": "_generateShareLink"
+            },
+            {
+              "kind": "method",
+              "name": "_initializeParameters"
+            },
+            {
+              "kind": "field",
+              "name": "haxProperties",
+              "static": true,
+              "description": "haxProperties integration via file reference",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "link",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "link"
+            },
+            {
+              "kind": "field",
+              "name": "characterSettings",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "default": "{ seed: \"0000000000\", accessories: 0, base: 0, leg: 0, face: 0, faceItem: 0, hair: 0, pants: 0, shirt: 0, skin: 0, size: 300, // Default character size hatColor: 0, hat: \"bunny\", name: \"\", fire: false, walking: false, circle: false, sunglasses: false, }",
+              "attribute": "characterSettings"
+            },
+            {
+              "kind": "field",
+              "name": "seed",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "seed"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "seed",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "seed"
+            },
+            {
+              "name": "link",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "link"
+            },
+            {
+              "name": "characterSettings",
+              "type": {
+                "text": "object"
+              },
+              "default": "{ seed: \"0000000000\", accessories: 0, base: 0, leg: 0, face: 0, faceItem: 0, hair: 0, pants: 0, shirt: 0, skin: 0, size: 300, // Default character size hatColor: 0, hat: \"bunny\", name: \"\", fire: false, walking: false, circle: false, sunglasses: false, }",
+              "fieldName": "characterSettings"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "DDDSuper",
+              "package": "@haxtheweb/d-d-d/d-d-d.js"
+            },
+            {
+              "name": "I18NMixin",
+              "package": "@haxtheweb/i18n-manager/lib/I18NMixin.js"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "my-avatar",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyAvatar",
+          "declaration": {
+            "name": "MyAvatar",
+            "module": "src/my-avatar.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "declaration": {
+            "name": "MyAvatar",
+            "module": "src/my-avatar.js"
+          }
+        }
+      ]
+    }
+  ]
+}
